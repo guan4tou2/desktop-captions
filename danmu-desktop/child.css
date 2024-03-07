@@ -1,0 +1,48 @@
+@font-face {
+  font-family:NotoSansTC;
+  src: url(assets/NotoSansTC-Regular.otf);
+  font-weight: normal;
+}
+h1 {
+  position: absolute;
+  color: aliceblue;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 5px;
+  margin: 0px;
+  letter-spacing:1px;
+  font-family:NotoSansTC,sans-serif,"Microsoft JhengHei";
+  line-height: 1;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  border-style: solid;
+  background-color: transparent;
+  border-radius: 10px;
+  border-width: 5px;
+  border-color: red;
+}
+h1::before {
+  content: attr(data-storke);
+}
+h1::before {
+  position: absolute;
+  z-index: -1;
+  -webkit-text-stroke-width: 6px;
+  -webkit-text-stroke-color: var(--webColor, #121212);
+  text-stroke-width: 6px;
+  text-stroke-color: var(--Color, #121212);
+  text-shadow:0 0 10px #121212;
+}
+img{
+  position: absolute;
+  overflow: hidden;
+}
+div{
+  height: calc(100vh - 10px);
+  width: 100%;
+  overflow-wrap: break-word;
+}
