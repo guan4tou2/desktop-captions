@@ -32,11 +32,11 @@ function createWindow() {
     childWindow.setAlwaysOnTop(true,"screen-saver")
 
   })
-  ipcMain.on('change',(event,mytext)=>{
+  ipcMain.on('change',(event,mytext,colorInput,opacityInput,sizeInput)=>{
     try{
       childWindow.webContents.executeJavaScript(
         `
-        showdanmu('${mytext}')
+        showdanmu('${mytext}','${colorInput}',${opacityInput},${sizeInput})
         `
         )
       }catch(e){

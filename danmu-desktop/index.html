@@ -19,11 +19,12 @@
 
   <body style="overflow:hidden" >
     <br>
-    <div class="mb-3 row">
-      <label for="basic-url" class="col-sm-4 col-form-label text-center">Input Captions</label>
-      <div class="col-sm-6">
+    <div class="mb-3 row justify-content-center">
+      <div class="col-sm-6 justify-content-center">
         <div class="input-group">
-          <input type="text" class="form-control" id="captions" aria-describedby="basic-addon3 basic-addon4">
+          <!-- <label for="basic-url" class="col-sm-4 col-form-label text-center">Input Captions</label> -->
+          <textarea type="text" placeholder="Input text" class="form-control" id="captions" aria-describedby="basic-addon3 basic-addon4"></textarea>
+<button class="btn btn-outline-secondary text-white-50" type="button" id="clearbutton">X</button>
         </div>
       </div>
     </div>
@@ -33,6 +34,31 @@
       <button type="button" class="btn btn-secondary btn-lg" id="start">Start</button>
       <button type="button" class="btn btn-secondary btn-lg" id="set" disabled>Set</button>
       <button type="button" class="btn btn-secondary btn-lg" id="stop" disabled>Close</button>
+    </div>
+<br>
+<br>
+    <div class="container border border-secondary rounded ">
+      <div class="row align-items-center mx-auto d-flex justify-content-center">
+        <div class="col d-flex justify-content-center ">
+          <div>
+            <label for="ColorInput" class="form-label row-sm-1">Color</label>
+            <input type="color" class="form-control form-control-color row-sm-1" id="ColorInput" value="#ffffff"
+            style="height:50px;">
+          </div>
+        </div>
+        <div class="col">
+          <label for="customRange" class="form-label row-sm-1">Opacity</label>
+          <label for="customRange" class="form-label row-sm-1" id="rangevalue">75%</label>
+          <input type="range" class="form-range row-sm-1" id="customRange" value="75" min="1" max="100" step="1">
+        </div>
+        <div class="col d-flex justify-content-center">
+          <div>
+            <label for="SizeInput" class="form-label row-sm-1">Font Size</label>
+            <input type="number" class="form-control row-sm-1" id="SizeInput" style="height:50px;width:100px;"
+            value="10">
+          </div>
+        </div>
+      </div>
     </div>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>

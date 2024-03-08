@@ -9,6 +9,7 @@ h1 {
   overflow-wrap: break-word;
   white-space: pre-wrap;
   word-wrap: break-word;
+  word-break: break-all;
   padding: 5px;
   margin: 0px;
   letter-spacing:1px;
@@ -27,6 +28,10 @@ body {
 }
 h1::before {
   content: attr(data-storke);
+  overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 h1::before {
   position: absolute;
@@ -36,6 +41,10 @@ h1::before {
   text-stroke-width: 6px;
   text-stroke-color: var(--Color, #121212);
   text-shadow:0 0 10px #121212;
+  overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 img{
   position: absolute;

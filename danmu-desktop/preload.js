@@ -23,6 +23,6 @@ window.addEventListener('DOMContentLoaded', () => {
 contextBridge.exposeInMainWorld("API", {
   create: () => ipcRenderer.send('createChild'),
   set: () => ipcRenderer.send('setChild'),
-  change: (mytext) => ipcRenderer.send('change',mytext),
+  change: (mytext,colorInput,opacityInput,sizeInput) => ipcRenderer.send('change',mytext,colorInput,opacityInput,sizeInput),
   delete: () => ipcRenderer.send('deleteChild'),
 });
