@@ -23,9 +23,9 @@ function showdanmu(string, color = '#ffffff', range = 75, size = 10) {
     danmu.style.fontSize = `${size}vw`;
     // danmu.style.fontStretch='expanded';
     danmu.style.color=color
-    danmu.style.opacity = range * 0.01
-    }
-    parentElement.appendChild(danmu);
+}
+danmu.style.opacity = range * 0.01
+parentElement.appendChild(danmu);
 }
 
 const opacityInput = document.getElementById("customRange")
