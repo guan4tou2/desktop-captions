@@ -45,10 +45,55 @@
       .btn-primary {
         background-image: linear-gradient(to right, #38bdf8, #3b82f6);
       }
+
+      .control-panel {
+        transition: all 0.3s ease;
+      }
+
+      .control-panel:hover {
+        transform: translateY(-2px);
+      }
+
+      input[type="range"] {
+        width: 100%;
+        height: 6px;
+        background: #1e293b;
+        border-radius: 5px;
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        background: #38bdf8;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      input[type="range"]::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+      }
+
+      .animate-pulse-slow {
+        animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
     </style>
   </head>
 
-    <body class="text-slate-200">
+  <body class="text-slate-200">
     <!-- Dynamic Background -->
     <div id="vanta-bg" class="fixed top-0 left-0 w-full h-full z-0"></div>
 
@@ -57,94 +102,53 @@
       class="relative min-h-screen flex items-center justify-center p-4 z-10"
     >
       <div
-        class="glass-effect w-full max-w-xl p-8 rounded-2xl shadow-2xl space-y-10"
+        class="glass-effect w-full max-w-2xl p-8 rounded-2xl shadow-2xl space-y-8"
       >
         <!-- Header -->
-        <div class="text-center">
-          <h1 class="text-3xl font-bold text-white">Overlay Setup</h1>
-          <p class="text-slate-400 mt-2">Configure and launch the overlay</p>
-        </div>
-
-                <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4">
-          <button
-            id="start-button"
-            class="w-full btn-primary text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-sky-500/50 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            <span>Start Overlay</span>
-          </button>
-          <button
-            id="stop-button"
-            disabled
-            class="w-full bg-slate-600 text-slate-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            </svg>
-            <span>Set Overlay</span>
-          </button>
-          <button
-            id="stop-button"
-            disabled
-            class="w-full bg-slate-600 text-slate-300 font-semibold py-3 px-6 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            </svg>
-            <span>Stop Overlay</span>
-          </button>
+        <div class="text-center space-y-3">
+          <h1 class="text-4xl font-bold text-white tracking-tight">
+            Overlay Setup
+          </h1>
+          <p class="text-slate-400">Configure and launch the overlay</p>
         </div>
 
         <!-- Form -->
-        <div class="space-y-6">
-          <div>
-            <label for="captions-input" class="text-sm font-medium text-slate-300"
-              >Text</label
+        <div class="space-y-8">
+          <!-- Text Input -->
+          <div class="space-y-2">
+            <label
+              for="captions-input"
+              class="text-sm font-medium text-slate-300 flex items-center gap-2"
             >
-            <input
-              type="textarea"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                ></path>
+              </svg>
+              Text
+            </label>
+            <textarea
               id="captions-input"
-              class="form-input mt-2 block w-full rounded-lg px-4 py-10"
-              placeholder="type your text here"
-            />
+              class="form-input mt-1 block w-full rounded-lg px-4 py-3 resize-none"
+              placeholder="Type your text here..."
+              rows="3"
+            ></textarea>
           </div>
-        <!-- Controls -->
-          <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+
+          <!-- Controls Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Color control -->
-            <div id="colorControl" class="space-y-2">
+            <div class="control-panel bg-slate-800/50 p-4 rounded-xl space-y-3">
               <label
                 for="ColorInput"
                 class="text-sm font-medium text-slate-300 flex items-center gap-2"
@@ -167,11 +171,13 @@
               <input
                 type="color"
                 id="ColorInput"
+                value="#3fd9ab"
                 class="w-full h-10 p-1 bg-slate-800 border-slate-700 rounded-lg cursor-pointer"
               />
             </div>
+
             <!-- Font size control -->
-            <div id="fontSizeControl" class="space-y-2">
+            <div class="control-panel bg-slate-800/50 p-4 rounded-xl space-y-3">
               <label
                 for="SizeInput"
                 class="text-sm font-medium text-slate-300 flex items-center gap-2"
@@ -196,13 +202,13 @@
               <input
                 type="number"
                 id="SizeInput"
-                min="{{Options['FontSize'][1]}}"
-                max="{{Options['FontSize'][2]}}"
+                value="24"
                 class="w-full bg-slate-800 border-2 border-slate-700 rounded-lg p-2 text-center focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300"
               />
             </div>
+
             <!-- Opacity control -->
-            <div id="opacityControl" class="space-y-2">
+            <div class="control-panel bg-slate-800/50 p-4 rounded-xl space-y-3">
               <label
                 for="OpacityRange"
                 class="text-sm font-medium text-slate-300 flex items-center justify-between"
@@ -225,17 +231,85 @@
                   Opacity
                 </span>
                 <span id="opacityValue" class="font-mono text-sky-400"
-                  >100%</span
+                  >50%</span
                 >
               </label>
               <input
                 type="range"
                 id="OpacityRange"
-                min="{{Options['Opacity'][1]}}"
-                max="{{Options['Opacity'][2]}}"
+                min="0"
+                max="100"
                 step="1"
+                class="mt-2"
+                value="75"
               />
             </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 pt-4">
+            <button
+              id="start-button"
+              class="w-full btn-primary text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-sky-500/50 transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Start Overlay</span>
+            </button>
+            <button
+              id="set-button"
+              class="w-full bg-slate-700 hover:bg-slate-600 text-slate-200 font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+              <span>Set Overlay</span>
+            </button>
+            <button
+              id="stop-button"
+              disabled
+              class="w-full bg-red-500/20 text-red-300 font-semibold py-3 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:bg-red-500/30"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              </svg>
+              <span>Stop Overlay</span>
+            </button>
           </div>
         </div>
       </div>
@@ -256,16 +330,14 @@
         minWidth: 200.0,
         scale: 1.0,
         scaleMobile: 1.0,
-        color: 0x3b82f6, // sky-500
-        backgroundColor: 0x0f172a, // slate-900
+        color: 0x3b82f6,
+        backgroundColor: 0x0f172a,
         points: 12.0,
         maxDistance: 25.0,
         spacing: 18.0,
       });
 
       document.addEventListener("DOMContentLoaded", () => {
-        const api = window.API;
-
         // DOM Elements
         const startButton = document.getElementById("start-button");
         const setButton = document.getElementById("set-button");
@@ -274,6 +346,14 @@
         const sizeInput = document.getElementById("SizeInput");
         const opacityInput = document.getElementById("OpacityRange");
         const captionsInput = document.getElementById("captions-input");
+        const opacityValue = document.getElementById("opacityValue");
+        opacityValue.textContent = `${opacityInput.value}%`;
+        opacityInput.addEventListener("input", () => {
+          opacityValue.textContent = `${opacityInput.value}%`;
+        });
+        opacityInput.addEventListener("change", () => {
+          opacityValue.textContent = `${opacityInput.value}%`;
+        });
       });
     </script>
   </body>
