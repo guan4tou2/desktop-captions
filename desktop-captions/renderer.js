@@ -28,20 +28,17 @@ danmu.style.opacity = range * 0.01
 parentElement.appendChild(danmu);
 }
 
-const opacityInput = document.getElementById("customRange")
-            const value = document.getElementById('rangevalue');
-            const colorInput = document.getElementById('ColorInput');
-            const sizeInput = document.getElementById('SizeInput');
-
-const startButton = document.getElementById('start')
-const stopButton = document.getElementById('stop')
-const setButton = document.getElementById('set')
-const captions = document.getElementById('captions')
-const clearbutton = document.getElementById('clearbutton')
+const startButton = document.getElementById("start-button");
+const setButton = document.getElementById("set-button");
+const stopButton = document.getElementById("stop-button");
+const colorInput = document.getElementById("ColorInput");
+const sizeInput = document.getElementById("SizeInput");
+const opacityInput = document.getElementById("OpacityRange");
+const captionsInput = document.getElementById("captions-input");
 const api=window.API
 startButton.addEventListener('click', () => {
     api.create()
-    api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+    api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
     
     startButton.disabled=true
     stopButton.disabled = false
@@ -58,29 +55,26 @@ setButton.addEventListener('click', () => {
     api.set()
 });
 colorInput.addEventListener('input', () => {
-        console.log(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+        console.log(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
     });
     colorInput.addEventListener('change', () => {
-    console.log(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+    console.log(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
 });
 opacityInput.addEventListener('input', () => {
     value.textContent = opacityInput.value + "%";
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
 });
 opacityInput.addEventListener('change', () => {
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
 });
 sizeInput.addEventListener('input', () => {
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
 });
 sizeInput.addEventListener('change', () => {
-        api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
+        api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
 });
-captions.addEventListener('input',()=>{
-    api.change(captions.value,colorInput.value,opacityInput.value,sizeInput.value)
-})
-clearbutton.addEventListener('click',()=>{
-    captions.value=""
-})
+captionsInput.addEventListener('input',()=>{
+    api.change(captionsInput.value,colorInput.value,opacityInput.value,sizeInput.value)
+});

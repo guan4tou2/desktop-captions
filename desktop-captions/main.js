@@ -8,51 +8,64 @@ function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
-    height: 600,
+    height: 800,
     resizable: false,
-    // autoHideMenuBar: true, 
+    // autoHideMenuBar: true,
     // icon: path.join(__dirname, 'assets/icon.png'),
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true
-    }
-  })
+      preload: path.join(__dirname, "preload.bundle.js"), // Corrected path
+      nodeIntegration: true,
+    },
+  });
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile("index.html");
+
+  // RELOCATED HANDLERS START
+  mainWindow.on("minimize", (ev) => {
+    ev.preventDefault();
+    mainWindow.hide();
+  });
+
+  mainWindow.on("close", (e) => {
+    console.log("[Main] Window close event triggered");
+        // close all child windows
+        if (BrowserWindow.getAllWindows().length === 2) {
+          childWindow.destroy();
+          app.quit();
+        } else {
+          app.quit();
+        }
+  });
+  // RELOCATED HANDLERS END
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
-  ipcMain.on('deleteChild', (event) => {
-    childWindow.destroy()
-  })
-  ipcMain.on('createChild', (event) => {
-    createChildWindow()
+  ipcMain.on("deleteChild", (event) => {
+    childWindow.destroy();
+  });
+  ipcMain.on("createChild", (event) => {
+    createChildWindow();
 
-    childWindow.setVisibleOnAllWorkspaces(true, 'visibleOnFullScreen')
-    childWindow.setAlwaysOnTop(true,"screen-saver")
-
-  })
-  ipcMain.on('change',(event,mytext,colorInput,opacityInput,sizeInput)=>{
-    try{
+    childWindow.setVisibleOnAllWorkspaces(true, "visibleOnFullScreen");
+    childWindow.setAlwaysOnTop(true, "screen-saver");
+  });
+  ipcMain.on("change", (event, mytext, colorInput, opacityInput, sizeInput) => {
+    try {
       childWindow.webContents.executeJavaScript(
         `
         showdanmu('${mytext}','${colorInput}',${opacityInput},${sizeInput})
         `
-        )
-      }catch(e){
-
-      }
-
-  })
-  ipcMain.on('setChild',(event)=>{
-    childWindow.setIgnoreMouseEvents(true)
+      );
+    } catch (e) {}
+  });
+  ipcMain.on("setChild", (event) => {
+    childWindow.setIgnoreMouseEvents(true);
     childWindow.webContents.executeJavaScript(
       `
 document.getElementById("childbody").style.borderColor="transparent";
     `
-    )
-  })
-
+    );
+  });
 }
 
 // This method will be called when Electron has finished
@@ -81,19 +94,19 @@ app.whenReady().then(() => {
     }
   ];
   tray.setContextMenu(Menu.buildFromTemplate(menu));
-  tray.setToolTip('danmu manager');
+  tray.setToolTip('desktop captions');
 
   tray.on('double-click', () => {
     mainWindow.show();
   });
-  mainWindow.on('minimize', ev => {
-    ev.preventDefault();
-    mainWindow.hide();
+  // mainWindow.on('minimize', ev => {
+  //   ev.preventDefault();
+  //   mainWindow.hide();
     
-  });
-  mainWindow.on('close', e => {
-    if (BrowserWindow.getAllWindows().length === 2){ childWindow.destroy() ;app.quit() }else{app.quit()}
-  });
+  // });
+  // mainWindow.on('close', e => {
+  //   if (BrowserWindow.getAllWindows().length === 2){ childWindow.destroy() ;app.quit() }else{app.quit()}
+  // });
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
