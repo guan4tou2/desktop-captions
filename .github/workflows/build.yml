@@ -248,3 +248,6 @@ jobs:
           asset_path: ${{ env.zip_path }}
           asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-mac-arm64.zip
           asset_content_type: application/zip
+
+permissions:
+  contents: write
