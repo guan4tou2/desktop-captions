@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "danmu-desktop/package.json"
+      - "package.json"
   workflow_dispatch:
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          VERSION=$(node -p "require('./danmu-desktop/package.json').version")
+          VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -34,8 +34,8 @@ jobs:
         shell: bash
         run: |
           git fetch
-          PREV_VERSION=$(git show HEAD~1:danmu-desktop/package.json | grep '"version"' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
-          CURR_VERSION=$(node -p "require('./danmu-desktop/package.json').version")
+          PREV_VERSION=$(git show HEAD~1:package.json | grep '"version"' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+          CURR_VERSION=$(node -p "require('./package.json').version")
 
           if [ "$PREV_VERSION" != "$CURR_VERSION" ]; then
             echo "Version changed: $PREV_VERSION -> $CURR_VERSION"
@@ -64,7 +64,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd danmu-desktop
           npm install
 
       - name: Build Electron App
@@ -74,7 +73,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           APP_VERSION: ${{ needs.check_version_change.outputs.version }}
         run: |
-          cd danmu-desktop
           npm run build:webpack
 
           if [ "$RUNNER_OS" == "Linux" ]; then
@@ -85,14 +83,14 @@ jobs:
             npx electron-builder --mac --arm64 --config.extraMetadata.version=$APP_VERSION
           fi
 
-          echo "Listing packaged files in danmu-desktop/pack:"
+          echo "Listing packaged files in pack:"
           ls -R pack
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Electron-App-${{ matrix.os }}
-          path: danmu-desktop/pack/**/*
+          path: pack/**/*
 
       - name: Create GitHub Release for Linux
         if: matrix.os == 'ubuntu-latest' && (needs.check_version_change.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch')
@@ -112,14 +110,14 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && (needs.check_version_change.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch')
         id: find_appimage
         run: |
-          APPIMAGE_PATH=$(find danmu-desktop/pack -name "danmu manager*-*.AppImage" -type f)
+          APPIMAGE_PATH=$(find pack -name "desktop captions*-*.AppImage" -type f)
           echo "appimage_path=$APPIMAGE_PATH" >> "$GITHUB_ENV"
 
       - name: Find Linux DEB
         if: matrix.os == 'ubuntu-latest' && (needs.check_version_change.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch')
         id: find_deb
         run: |
-          DEB_PATH=$(find danmu-desktop/pack -name "danmu manager*-*.deb" -type f)
+          DEB_PATH=$(find pack -name "desktop captions*-*.deb" -type f)
           echo "deb_path=$DEB_PATH" >> "$GITHUB_ENV"
 
       - name: Upload AppImage
@@ -130,7 +128,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release_linux.outputs.upload_url }}
           asset_path: ${{ env.appimage_path }}
-          asset_name: danmu manager-${{ needs.check_version_change.outputs.version }}-linux-x86_64.AppImage
+          asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-linux-x86_64.AppImage
           asset_content_type: application/octet-stream
 
       - name: Upload DEB
@@ -141,7 +139,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release_linux.outputs.upload_url }}
           asset_path: ${{ env.deb_path }}
-          asset_name: danmu manager-${{ needs.check_version_change.outputs.version }}-linux-amd64.deb
+          asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-linux-amd64.deb
           asset_content_type: application/vnd.debian.binary-package
 
       - name: Create GitHub Release for Windows
@@ -163,7 +161,7 @@ jobs:
         id: find_exe
         shell: bash
         run: |
-          EXE_PATH=$(find danmu-desktop/pack -name "danmu manager*-*.exe" -type f)
+          EXE_PATH=$(find pack -name "desktop captions*-*.exe" -type f)
           echo "exe_path=$EXE_PATH" >> "$GITHUB_ENV"
 
       - name: Upload EXE
@@ -174,7 +172,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release_windows.outputs.upload_url }}
           asset_path: ${{ env.exe_path }}
-          asset_name: danmu manager-${{ needs.check_version_change.outputs.version }}-win-x64.exe
+          asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-win-x64.exe
           asset_content_type: application/octet-stream
 
       - name: Create Release for macOS
@@ -194,7 +192,7 @@ jobs:
             ## MacOS Installation
             First execute, run in terminal:
             ```bash
-            sudo xattr -r -d com.apple.quarantine 'danmu manager.app'
+            sudo xattr -r -d com.apple.quarantine 'desktop captions.app'
             ```
 
       - name: Find DMG file
@@ -203,13 +201,13 @@ jobs:
         env: # Add APP_VERSION to env
           APP_VERSION: ${{ needs.check_version_change.outputs.version }}
         run: |
-          EXPECTED_DMG="danmu-desktop/pack/danmu manager-${APP_VERSION}-mac-arm64.dmg"
+          EXPECTED_DMG="pack/desktop captions-${APP_VERSION}-mac-arm64.dmg"
           if [ -f "$EXPECTED_DMG" ]; then
             echo "Found DMG: $EXPECTED_DMG"
             echo "dmg_path=$EXPECTED_DMG" >> "$GITHUB_ENV"
           else
             echo "Error: Expected DMG file $EXPECTED_DMG not found."
-            ls -R danmu-desktop/pack # List available files for debugging
+            ls -R pack # List available files for debugging
             exit 1
           fi
 
@@ -219,13 +217,13 @@ jobs:
         env: # Add APP_VERSION to env
           APP_VERSION: ${{ needs.check_version_change.outputs.version }}
         run: |
-          EXPECTED_ZIP="danmu-desktop/pack/danmu manager-${APP_VERSION}-mac-arm64.zip"
+          EXPECTED_ZIP="pack/desktop captions-${APP_VERSION}-mac-arm64.zip"
           if [ -f "$EXPECTED_ZIP" ]; then
             echo "Found ZIP: $EXPECTED_ZIP"
             echo "zip_path=$EXPECTED_ZIP" >> "$GITHUB_ENV"
           else
             echo "Error: Expected ZIP file $EXPECTED_ZIP not found."
-            ls -R danmu-desktop/pack # List available files for debugging
+            ls -R pack # List available files for debugging
             exit 1
           fi
 
@@ -237,7 +235,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.dmg_path }}
-          asset_name: danmu manager-${{ needs.check_version_change.outputs.version }}-mac-arm64.dmg
+          asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-mac-arm64.dmg
           asset_content_type: application/octet-stream
 
       - name: Upload ZIP
@@ -248,5 +246,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.zip_path }}
-          asset_name: danmu manager-${{ needs.check_version_change.outputs.version }}-mac-arm64.zip
+          asset_name: desktop captions-${{ needs.check_version_change.outputs.version }}-mac-arm64.zip
           asset_content_type: application/zip
