@@ -4,7 +4,7 @@
   "description": "A desktop captions",
   "main": "dist/main.bundle.js",
   "scripts": {
-    "start": "npm run build:webpack && electron .",
+    "start": "npm run build:webpack && xvfb-run --auto-servernum --server-args=\"-screen 0 1024x768x24\" electron .",
     "pack": "npm run build:webpack && electron-builder --dir",
     "pack-dist": "npm run build:webpack && electron-builder",
     "build:webpack": "webpack",
